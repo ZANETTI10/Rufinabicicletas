@@ -838,72 +838,64 @@ function selTipoDoc(btn, val) {
 var canvas = document.getElementById('firma-canvas');
 var ctx = canvas.getContext('2d');
 var firmaVacia = true;
-var dibujando = false;
-var ultimoX = 0, ultimoY = 0;
+var drawing = false;
 
-function setupCanvas() {
-  var rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width || 560;
-  canvas.height = 160;
+function resizeCanvas() {
+  var w = canvas.offsetWidth;
+  if (w > 0) {
+    canvas.width = w;
+    canvas.height = 160;
+  }
   ctx.strokeStyle = '#2c1a0e';
-  ctx.lineWidth = 2.5;
+  ctx.lineWidth = 3;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-setupCanvas();
-window.addEventListener('resize', setupCanvas);
+// Esperar a que el canvas tenga tamaño real
+setTimeout(resizeCanvas, 100);
+window.addEventListener('resize', resizeCanvas);
 
-function getPosCanvas(e) {
-  var rect = canvas.getBoundingClientRect();
-  var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  var clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  return {
-    x: (clientX - rect.left) * (canvas.width / rect.width),
-    y: (clientY - rect.top) * (canvas.height / rect.height)
-  };
+function getXY(e) {
+  var r = canvas.getBoundingClientRect();
+  var t = e.touches ? e.touches[0] : e;
+  return [
+    (t.clientX - r.left) * canvas.width / r.width,
+    (t.clientY - r.top)  * canvas.height / r.height
+  ];
 }
 
-function iniciarTrazo(e) {
-  e.preventDefault();
-  dibujando = true;
-  var p = getPosCanvas(e);
-  ultimoX = p.x;
-  ultimoY = p.y;
-  ctx.beginPath();
-  ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-  ctx.fill();
+canvas.onmousedown = function(e) {
+  drawing = true;
+  var p = getXY(e);
+  ctx.beginPath(); ctx.moveTo(p[0], p[1]);
   document.getElementById('firma-placeholder').style.display = 'none';
-}
-
-function continuarTrazo(e) {
-  e.preventDefault();
-  if (!dibujando) return;
-  var p = getPosCanvas(e);
-  ctx.beginPath();
-  ctx.moveTo(ultimoX, ultimoY);
-  ctx.lineTo(p.x, p.y);
-  ctx.stroke();
-  ultimoX = p.x;
-  ultimoY = p.y;
+};
+canvas.onmousemove = function(e) {
+  if (!drawing) return;
+  var p = getXY(e);
+  ctx.lineTo(p[0], p[1]); ctx.stroke();
   firmaVacia = false;
-}
+};
+canvas.onmouseup = canvas.onmouseleave = function() { drawing = false; };
 
-function terminarTrazo(e) {
-  dibujando = false;
-}
-
-canvas.addEventListener('mousedown', iniciarTrazo);
-canvas.addEventListener('mousemove', continuarTrazo);
-canvas.addEventListener('mouseup', terminarTrazo);
-canvas.addEventListener('mouseleave', terminarTrazo);
-canvas.addEventListener('touchstart', iniciarTrazo, {passive: false});
-canvas.addEventListener('touchmove', continuarTrazo, {passive: false});
-canvas.addEventListener('touchend', terminarTrazo, {passive: false});
+canvas.ontouchstart = function(e) {
+  e.preventDefault();
+  drawing = true;
+  var p = getXY(e);
+  ctx.beginPath(); ctx.moveTo(p[0], p[1]);
+  document.getElementById('firma-placeholder').style.display = 'none';
+};
+canvas.ontouchmove = function(e) {
+  e.preventDefault();
+  if (!drawing) return;
+  var p = getXY(e);
+  ctx.lineTo(p[0], p[1]); ctx.stroke();
+  firmaVacia = false;
+};
+canvas.ontouchend = function() { drawing = false; };
 
 function limpiarFirma() {
-  setupCanvas();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   firmaVacia = true;
   document.getElementById('firma-placeholder').style.display = '';
 }
