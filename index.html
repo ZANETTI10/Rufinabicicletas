@@ -803,6 +803,7 @@
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 // ── Estado global ──────────────────────────────────────────────────
 var registros = JSON.parse(localStorage.getItem('rufina_registros') || '[]');
 var APPS_SCRIPT_DEFAULT = 'https://script.google.com/macros/s/AKfycbyB0rgAGNkHiTaXPAY_985q4M4fryXx6LnjQmZDThtCfzcFnH9T8lSzE59LSqOTP_8/exec';
@@ -1064,6 +1065,7 @@ function copiarCodigo() {
 ctx.fillStyle = '#ffffff';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 actualizarProgreso();
+}); // DOMContentLoaded
 </script>
 </body>
 </html>
