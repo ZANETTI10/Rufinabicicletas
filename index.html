@@ -3,799 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consentimiento Informado — La Rufina</title>
+<title>Consentimiento — La Rufina</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --verde-oscuro: #2c1a0e;
-    --verde-medio: #4a2f1a;
-    --verde-claro: #7a5c3a;
-    --verde-suave: #f5ede0;
-    --tierra: #c17f3a;
-    --crema: #fdf8f2;
-    --texto: #1e1209;
-    --texto-suave: #6b4f2e;
-    --borde: #e0cdb0;
-    --error: #c0392b;
-    --exito: #4a7c3f;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--crema);
-    color: var(--texto);
-    min-height: 100vh;
-  }
-
-  .encabezado {
-    background-color: #2c1a0e;
-    color: #fff;
-    padding: 2rem 1.5rem 1.5rem;
-    text-align: center;
-    border-bottom: 4px solid #c17f3a; background-image: linear-gradient(135deg, #2c1a0e 0%, #3d2512 50%, #2c1a0e 100%);
-  }
-
-  .encabezado .nit {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #e8c89a;
-    margin-bottom: 0.5rem;
-  }
-
-  .encabezado h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 0.4rem;
-  }
-
-  .encabezado .subtitulo {
-    font-size: 13px;
-    color: #d4b08a;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .barra-progreso-wrap {
-    background: var(--verde-medio);
-    padding: 0.75rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .barra-progreso {
-    flex: 1;
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .barra-progreso-fill {
-    height: 100%;
-    background: #c17f3a;
-    border-radius: 2px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-
-  .paso-label {
-    font-size: 12px;
-    color: #d4b08a;
-    white-space: nowrap;
-  }
-
-  .contenedor {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem;
-  }
-
-  .seccion {
-    background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .seccion-titulo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--verde-oscuro);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 1.5px solid var(--borde);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .seccion-titulo span.num {
-    background: #2c1a0e;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .campo-grupo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .campo-grupo.uno { grid-template-columns: 1fr; }
-  .campo-grupo.tres { grid-template-columns: 1fr 1fr 1fr; }
-
-  @media (max-width: 520px) {
-    .campo-grupo, .campo-grupo.tres { grid-template-columns: 1fr; }
-  }
-
-  .campo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--texto-suave);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  input[type="text"],
-  input[type="tel"],
-  input[type="date"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--borde);
-    border-radius: 6px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    color: var(--texto);
-    background: var(--crema);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--verde-claro);
-    box-shadow: 0 0 0 3px rgba(74,140,80,0.12);
-    background: #fff;
-  }
-
-  input.error, select.error, textarea.error {
-    border-color: var(--error);
-  }
-
-  textarea { resize: vertical; min-height: 80px; }
-
-  .tipo-doc-row {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-
-  .tipo-btn {
-    padding: 8px 14px;
-    border: 1px solid var(--borde);
-    border-radius: 6px;
-    background: var(--crema);
-    cursor: pointer;
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    color: var(--texto-suave);
-    transition: all 0.15s;
-  }
-
-  .tipo-btn.activo {
-    background: #2c1a0e;
-    border-color: var(--verde-oscuro);
-    color: #fff;
-  }
-
-  .calidad-row {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.25rem;
-  }
-
-  .calidad-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--borde);
-    border-radius: 6px;
-    background: var(--crema);
-    cursor: pointer;
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    color: var(--texto-suave);
-    transition: all 0.15s;
-  }
-
-  .calidad-btn.activo {
-    background: #2c1a0e;
-    border-color: var(--verde-oscuro);
-    color: #fff;
-  }
-
-  .clausulas {
-    background: var(--verde-suave);
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 1.25rem;
-    margin-bottom: 1.25rem;
-    max-height: 280px;
-    overflow-y: auto;
-  }
-
-  .clausulas p {
-    font-size: 13px;
-    color: #2a3a25;
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-  }
-
-  .clausulas p:last-child { margin-bottom: 0; }
-  .clausulas strong { color: var(--verde-oscuro); }
-
-  .check-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--borde);
-  }
-
-  .check-row:last-child { border-bottom: none; }
-
-  .check-row input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-top: 1px;
-    accent-color: var(--verde-oscuro);
-    flex-shrink: 0;
-    cursor: pointer;
-  }
-
-  .check-row label {
-    font-size: 13px;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--texto);
-    cursor: pointer;
-    line-height: 1.5;
-  }
-
-  .firma-area {
-    border: 2px dashed var(--tierra);
-    border-radius: 8px;
-    background: #fff;
-    padding: 0.5rem;
-    text-align: center;
-    position: relative;
-    min-height: 160px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #firma-canvas {
-    border-radius: 6px;
-    cursor: crosshair;
-    touch-action: none;
-    display: block;
-  }
-
-  .firma-controles {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-    justify-content: center;
-  }
-
-  .btn-firma {
-    padding: 7px 16px;
-    border-radius: 6px;
-    border: 1px solid var(--borde);
-    background: var(--crema);
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    color: var(--texto-suave);
-    transition: background 0.15s;
-  }
-
-  .btn-firma:hover { background: var(--verde-suave); }
-
-  .fecha-lugar {
-    font-size: 13px;
-    color: var(--texto-suave);
-    text-align: center;
-    padding: 0.75rem 0;
-    border-top: 1px solid var(--borde);
-    margin-top: 0.75rem;
-  }
-
-  .btn-enviar {
-    width: 100%;
-    padding: 16px;
-    background: #2c1a0e;
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 0.5rem;
-  }
-
-  .btn-enviar:hover { background: var(--verde-medio); }
-  .btn-enviar:active { transform: scale(0.99); }
-  .btn-enviar:disabled { background: #9aad9a; cursor: not-allowed; }
-
-  .nota-envio {
-    font-size: 12px;
-    color: var(--texto-suave);
-    text-align: center;
-    margin-top: 0.75rem;
-    line-height: 1.5;
-  }
-
-  .alerta {
-    display: none;
-    padding: 1rem 1.25rem;
-    border-radius: 8px;
-    margin-bottom: 1.25rem;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  .alerta.error {
-    background: #fdf0ef;
-    border: 1px solid #e8b4b0;
-    color: var(--error);
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-start;
-  }
-
-  .alerta.exito {
-    background: #eafaf1;
-    border: 1px solid #a8ddb8;
-    color: #1e6b38;
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-start;
-  }
-
-  .spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-    margin-right: 8px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .registro-section {
-    display: none;
-  }
-
-  .registro-section.visible {
-    display: block;
-  }
-
-  .config-seccion {
-    background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .config-seccion h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--verde-oscuro);
-    margin-bottom: 1rem;
-  }
-
-  .config-nota {
-    background: #fff8e8;
-    border: 1px solid #e8d080;
-    border-radius: 6px;
-    padding: 0.875rem 1rem;
-    font-size: 13px;
-    color: #5a4a10;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 2px solid var(--borde);
-    margin-bottom: 1.5rem;
-  }
-
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--texto-suave);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    transition: color 0.15s;
-    font-weight: 500;
-  }
-
-  .tab.activo {
-    color: var(--verde-oscuro);
-    border-bottom-color: var(--verde-oscuro);
-  }
-
-  .panel { display: none; }
-  .panel.activo { display: block; }
-
-  .tabla-wrap {
-    overflow-x: auto;
-    border-radius: 8px;
-    border: 1px solid var(--borde);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  th {
-    background: #2c1a0e;
-    color: #c8e8c0;
-    padding: 10px 12px;
-    text-align: left;
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--borde);
-    color: var(--texto);
-    vertical-align: middle;
-  }
-
-  tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: var(--verde-suave); }
-  tr:hover td { background: #d8f0d0; }
-
-  .badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  .badge.ok { background: #fde8c8; color: #7a4010; }
-  .badge.pend { background: #fff0d0; color: #7a5010; }
-
-  .btn-exportar {
-    padding: 10px 20px;
-    background: #2c1a0e;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    transition: background 0.15s;
-  }
-
-  .btn-exportar:hover { background: var(--verde-medio); }
-
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .stat-card {
-    background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--verde-oscuro);
-    display: block;
-  }
-
-  .stat-lbl {
-    font-size: 12px;
-    color: var(--texto-suave);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .nav-top {
-    background: var(--verde-medio);
-    display: flex;
-    justify-content: center;
-    gap: 0;
-  }
-
-  .nav-btn {
-    padding: 10px 20px;
-    color: #e8c89a;
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    border: none;
-    background: none;
-    border-bottom: 2px solid transparent;
-    transition: all 0.15s;
-    font-weight: 500;
-  }
-
-  .nav-btn.activo {
-    color: #fff;
-    border-bottom-color: #e8c89a;
-  }
-
-  .nav-btn:hover { color: #fff; }
-
-  .vista { display: none; }
-  .vista.activa { display: block; }
+:root {
+  --cafe: #2c1a0e;
+  --cafe2: #4a2f1a;
+  --tierra: #c17f3a;
+  --crema: #fdf8f2;
+  --suave: #f5ede0;
+  --borde: #e0cdb0;
+  --texto: #1e1209;
+  --gris: #6b4f2e;
+  --error: #c0392b;
+  --ok: #4a7c3f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--crema); color: var(--texto); }
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #2c1a0e, #3d2512);
+  color: #fff;
+  padding: 1.5rem;
+  text-align: center;
+  border-bottom: 4px solid var(--tierra);
+}
+.header .nit { font-size: 11px; letter-spacing: 2px; color: #e8c89a; margin-bottom: 0.4rem; }
+.header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; }
+.header p { font-size: 13px; color: #d4b08a; margin-top: 0.3rem; }
+
+/* NAV */
+.nav { background: var(--cafe2); display: flex; justify-content: center; }
+.nav button {
+  padding: 11px 22px; background: none; border: none; border-bottom: 3px solid transparent;
+  color: #d4b08a; font-size: 13px; font-family: 'Inter', sans-serif;
+  cursor: pointer; font-weight: 500; transition: all 0.15s;
+}
+.nav button.activo { color: #fff; border-bottom-color: var(--tierra); }
+.nav button:hover { color: #fff; }
+
+/* VISTAS */
+.vista { display: none; }
+.vista.activa { display: block; }
+
+/* CONTENEDOR */
+.wrap { max-width: 680px; margin: 0 auto; padding: 1.5rem 1.25rem; }
+
+/* SECCIONES */
+.sec {
+  background: #fff; border: 1px solid var(--borde);
+  border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem;
+}
+.sec-titulo {
+  font-family: 'Playfair Display', serif; font-size: 1rem;
+  color: var(--cafe); margin-bottom: 1.25rem;
+  padding-bottom: 0.6rem; border-bottom: 1px solid var(--borde);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.num {
+  background: var(--cafe); color: #fff; font-family: 'Inter', sans-serif;
+  font-size: 11px; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+/* CAMPOS */
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.row.uno { grid-template-columns: 1fr; }
+.row.tres { grid-template-columns: 1fr 1fr 1fr; }
+@media(max-width:500px) { .row, .row.tres { grid-template-columns: 1fr; } }
+.campo { display: flex; flex-direction: column; gap: 5px; }
+label { font-size: 12px; font-weight: 500; color: var(--gris); text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--borde);
+  border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 15px;
+  color: var(--texto); background: var(--suave); outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus { border-color: var(--tierra); box-shadow: 0 0 0 3px rgba(193,127,58,0.15); background: #fff; }
+
+/* BOTONES TIPO */
+.tipos { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.tipo {
+  padding: 8px 14px; border: 1px solid var(--borde); border-radius: 6px;
+  background: var(--suave); cursor: pointer; font-size: 13px;
+  font-family: 'Inter', sans-serif; color: var(--gris); transition: all 0.15s;
+}
+.tipo.on { background: var(--cafe); border-color: var(--cafe); color: #fff; }
+
+/* CLAUSULAS */
+.clausulas {
+  background: var(--suave); border: 1px solid var(--borde);
+  border-radius: 8px; padding: 1.25rem; max-height: 260px;
+  overflow-y: auto; margin-bottom: 1rem;
+}
+.clausulas p { font-size: 13px; color: #3a2510; line-height: 1.7; margin-bottom: 0.75rem; }
+.clausulas p:last-child { margin-bottom: 0; }
+.clausulas strong { color: var(--cafe); }
+
+/* CHECKS */
+.chk { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--borde); }
+.chk:last-child { border-bottom: none; }
+.chk input[type=checkbox] { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--cafe); flex-shrink: 0; cursor: pointer; }
+.chk label { font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: 0; cursor: pointer; line-height: 1.5; }
+
+/* FIRMA */
+.firma-wrap {
+  border: 2px dashed var(--tierra); border-radius: 8px;
+  background: #fff; padding: 8px; position: relative;
+}
+#canvas-firma {
+  display: block; width: 100%; height: 160px;
+  cursor: crosshair; touch-action: none;
+  border-radius: 4px;
+}
+.firma-hint {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-size: 13px; color: #bbb; pointer-events: none;
+}
+.firma-btns { display: flex; justify-content: center; margin-top: 0.75rem; }
+.btn-limpiar {
+  padding: 7px 16px; border: 1px solid var(--borde); border-radius: 6px;
+  background: var(--suave); font-size: 13px; font-family: 'Inter', sans-serif;
+  cursor: pointer; color: var(--gris);
+}
+
+/* BTN ENVIAR */
+.btn-enviar {
+  width: 100%; padding: 16px; background: var(--cafe); color: #fff;
+  font-family: 'Playfair Display', serif; font-size: 1.1rem;
+  border: none; border-radius: 8px; cursor: pointer; margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+.btn-enviar:hover { background: var(--cafe2); }
+.btn-enviar:disabled { background: #bbb; cursor: not-allowed; }
+.nota { font-size: 12px; color: var(--gris); text-align: center; margin-top: 0.75rem; }
+
+/* ALERTAS */
+.alerta { display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 14px; }
+.alerta.err { background: #fdf0ef; border: 1px solid #e8b4b0; color: var(--error); }
+.alerta.ok { background: #eafaf1; border: 1px solid #a8ddb8; color: var(--ok); }
+
+/* SPINNER */
+.spin {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* REGISTROS */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+.stat { background: #fff; border: 1px solid var(--borde); border-radius: 8px; padding: 1rem; text-align: center; }
+.stat-n { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--cafe); display: block; }
+.stat-l { font-size: 12px; color: var(--gris); text-transform: uppercase; letter-spacing: 0.5px; }
+.btn-exp {
+  padding: 10px 20px; background: var(--cafe); color: #fff;
+  border: none; border-radius: 6px; font-size: 14px;
+  font-family: 'Inter', sans-serif; cursor: pointer; margin-bottom: 1rem;
+}
+.tbl-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--borde); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--cafe); color: #e8c89a; padding: 10px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--borde); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--suave); }
+.badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; background: #fde8c8; color: #7a4010; }
 </style>
 </head>
 <body>
 
-<div class="encabezado">
-  <div class="nit">🌿 LRFN FREEDOM CHASERS S.A.S. &nbsp;·&nbsp; NIT 901361323-0 &nbsp;·&nbsp; Vda. El Peñasco, Envigado 🌿</div>
+<div class="header">
+  <div class="nit">🌿 LRFN FREEDOM CHASERS S.A.S. · NIT 901361323-0 · Vda. El Peñasco, Envigado 🌿</div>
   <h1>La Rufina</h1>
-  <div class="subtitulo">Consentimiento informado y exoneración de responsabilidad — uso de bicicletas y espacios</div>
+  <p>Consentimiento informado — uso de bicicletas y espacios</p>
 </div>
 
-<div class="barra-progreso-wrap">
-  <div class="barra-progreso"><div class="barra-progreso-fill" id="progreso-fill"></div></div>
-  <div class="paso-label" id="progreso-label">Completando formulario...</div>
+<div class="nav">
+  <button id="tab-form" class="activo" onclick="verVista('form')">📝 Nuevo consentimiento</button>
+  <button id="tab-reg" onclick="verVista('reg')">📋 Registros guardados</button>
 </div>
 
-<div class="nav-top">
-  <button class="nav-btn activo" onclick="mostrarVista('formulario', this)">📝 Nuevo consentimiento</button>
-  <button class="nav-btn" onclick="mostrarVista('registros', this)">📋 Registros guardados</button>
-  
-</div>
+<!-- FORMULARIO -->
+<div id="vista-form" class="vista activa">
+<div class="wrap">
 
-<!-- VISTA FORMULARIO -->
-<div class="vista activa" id="vista-formulario">
-<div class="contenedor">
+  <div id="alerta-err" class="alerta err"></div>
+  <div id="alerta-ok" class="alerta ok">✅ Consentimiento registrado correctamente.</div>
 
-  <div class="alerta error" id="alerta-error">
-    <span>⚠️</span>
-    <div id="alerta-error-texto">Por favor completa todos los campos requeridos.</div>
-  </div>
-  <div class="alerta exito" id="alerta-exito">
-    <span>✅</span>
-    <div>Consentimiento registrado correctamente. El formulario ha sido guardado.</div>
-  </div>
-
-  <!-- SECCIÓN 1: Fecha y lugar -->
-  <div class="seccion">
-    <div class="seccion-titulo"><span class="num">1</span> Fecha y lugar</div>
-    <div class="campo-grupo tres">
-      <div class="campo">
-        <label>Día</label>
-        <input type="text" id="dia" placeholder="Ej: 15" maxlength="2">
-      </div>
-      <div class="campo">
-        <label>Mes</label>
+  <!-- 1. Fecha -->
+  <div class="sec">
+    <div class="sec-titulo"><span class="num">1</span> Fecha</div>
+    <div class="row tres">
+      <div class="campo"><label>Día *</label><input id="dia" type="text" placeholder="15" maxlength="2"></div>
+      <div class="campo"><label>Mes *</label>
         <select id="mes">
           <option value="">— Seleccionar —</option>
-          <option>Enero</option><option>Febrero</option><option>Marzo</option>
-          <option>Abril</option><option>Mayo</option><option>Junio</option>
-          <option>Julio</option><option>Agosto</option><option>Septiembre</option>
-          <option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
+          <option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option>
+          <option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option>
+          <option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
         </select>
       </div>
-      <div class="campo">
-        <label>Año</label>
-        <input type="text" id="anio" placeholder="2026" maxlength="4" value="2026">
-      </div>
+      <div class="campo"><label>Año</label><input id="anio" type="text" value="2026" maxlength="4"></div>
     </div>
   </div>
 
-  <!-- SECCIÓN 2: Datos del acudiente -->
-  <div class="seccion">
-    <div class="seccion-titulo"><span class="num">2</span> Datos del padre / madre / acudiente</div>
-
-    <div style="margin-bottom:0.75rem;">
-      <label style="display:block;margin-bottom:6px;">Calidad en que actúa</label>
-      <div class="calidad-row">
-        <button type="button" class="calidad-btn" onclick="selCalidad(this,'Padre')">Padre</button>
-        <button type="button" class="calidad-btn" onclick="selCalidad(this,'Madre')">Madre</button>
-        <button type="button" class="calidad-btn" onclick="selCalidad(this,'Tutor/a')">Tutor/a</button>
-        <button type="button" class="calidad-btn" onclick="selCalidad(this,'Acudiente')">Acudiente</button>
+  <!-- 2. Acudiente -->
+  <div class="sec">
+    <div class="sec-titulo"><span class="num">2</span> Padre / Madre / Acudiente</div>
+    <div style="margin-bottom:1rem;">
+      <label style="display:block;margin-bottom:6px;">Calidad *</label>
+      <div class="tipos">
+        <button type="button" class="tipo" onclick="selTipo(this,'calidad')">Padre</button>
+        <button type="button" class="tipo" onclick="selTipo(this,'calidad')">Madre</button>
+        <button type="button" class="tipo" onclick="selTipo(this,'calidad')">Tutor/a</button>
+        <button type="button" class="tipo" onclick="selTipo(this,'calidad')">Acudiente</button>
       </div>
       <input type="hidden" id="calidad">
     </div>
-
-    <div class="campo-grupo uno">
-      <div class="campo">
-        <label>Nombre completo *</label>
-        <input type="text" id="nombre-acudiente" placeholder="Nombres y apellidos">
-      </div>
-    </div>
-
-    <div style="margin-bottom:0.75rem;">
+    <div class="row uno"><div class="campo"><label>Nombre completo *</label><input id="nombre-ac" type="text" placeholder="Nombres y apellidos"></div></div>
+    <div style="margin-bottom:1rem;">
       <label style="display:block;margin-bottom:6px;">Tipo de documento</label>
-      <div class="tipo-doc-row">
-        <button type="button" class="tipo-btn activo" onclick="selTipoDoc(this,'CC')">C.C.</button>
-        <button type="button" class="tipo-btn" onclick="selTipoDoc(this,'CE')">C.E.</button>
-        <button type="button" class="tipo-btn" onclick="selTipoDoc(this,'Pasaporte')">Pasaporte</button>
-        <button type="button" class="tipo-btn" onclick="selTipoDoc(this,'PPT')">PPT</button>
+      <div class="tipos">
+        <button type="button" class="tipo on" onclick="selTipo(this,'tipo-doc')">C.C.</button>
+        <button type="button" class="tipo" onclick="selTipo(this,'tipo-doc')">C.E.</button>
+        <button type="button" class="tipo" onclick="selTipo(this,'tipo-doc')">Pasaporte</button>
+        <button type="button" class="tipo" onclick="selTipo(this,'tipo-doc')">PPT</button>
       </div>
-      <input type="hidden" id="tipo-doc" value="CC">
+      <input type="hidden" id="tipo-doc" value="C.C.">
     </div>
-
-    <div class="campo-grupo">
-      <div class="campo">
-        <label>Número de documento *</label>
-        <input type="text" id="cedula" placeholder="Número de identificación">
-      </div>
-      <div class="campo">
-        <label>Número de contacto *</label>
-        <input type="tel" id="telefono" placeholder="Celular o teléfono">
-      </div>
+    <div class="row">
+      <div class="campo"><label>Número de documento *</label><input id="cedula" type="text" placeholder="Número"></div>
+      <div class="campo"><label>Teléfono de contacto *</label><input id="telefono" type="tel" placeholder="Celular"></div>
     </div>
   </div>
 
-  <!-- SECCIÓN 3: Datos del menor -->
-  <div class="seccion">
-    <div class="seccion-titulo"><span class="num">3</span> Datos del menor</div>
-    <div class="campo-grupo uno">
-      <div class="campo">
-        <label>Nombre completo del menor *</label>
-        <input type="text" id="nombre-menor" placeholder="Nombres y apellidos del menor">
-      </div>
-    </div>
-    <div class="campo-grupo">
-      <div class="campo">
-        <label>Edad del menor</label>
-        <input type="text" id="edad-menor" placeholder="Edad">
-      </div>
-      <div class="campo">
-        <label>Fecha de visita</label>
-        <input type="date" id="fecha-visita">
-      </div>
+  <!-- 3. Menor -->
+  <div class="sec">
+    <div class="sec-titulo"><span class="num">3</span> Datos del menor</div>
+    <div class="row uno"><div class="campo"><label>Nombre completo *</label><input id="nombre-m" type="text" placeholder="Nombres y apellidos del menor"></div></div>
+    <div class="row">
+      <div class="campo"><label>Edad</label><input id="edad-m" type="text" placeholder="Edad"></div>
+      <div class="campo"><label>Fecha de visita</label><input id="fecha-v" type="date"></div>
     </div>
   </div>
 
-  <!-- SECCIÓN 4: Términos y condiciones -->
-  <div class="seccion">
-    <div class="seccion-titulo"><span class="num">4</span> Términos y declaraciones</div>
-
+  <!-- 4. Términos -->
+  <div class="sec">
+    <div class="sec-titulo"><span class="num">4</span> Términos y declaraciones</div>
     <div class="clausulas">
       <p><strong>1.</strong> He sido informado(a) de manera suficiente, clara y comprensible sobre las características de la actividad recreativa de uso de bicicletas y espacios, así como sobre las condiciones físicas requeridas para su práctica segura.</p>
       <p><strong>2.</strong> Conozco y acepto que el uso de bicicletas eléctricas implica riesgos inherentes, incluyendo posibles accidentes, caídas y lesiones personales.</p>
       <p><strong>3.</strong> Declaro no presentar ningún tipo de contraindicación médica que me impida o que impida al menor a mi cargo participar en esta actividad recreativa.</p>
       <p><strong>4.</strong> Me comprometo a cuidar mi integridad física (y la del menor a mi cargo) sin exponerme a riesgos innecesarios, y a no abandonar el área de actividad sin previa autorización del personal encargado.</p>
-      <p><strong>5.</strong> AUTORIZO expresamente a mi hijo(a) / pupilo(a) para que haga uso de las bicicletas y espacios proporcionadas dentro del restaurante LA RUFINA, ubicado en la Vda. El Peñasco, Envigado, Antioquia.</p>
+      <p><strong>5.</strong> AUTORIZO expresamente a mi hijo(a) / pupilo(a) para que haga uso de las bicicletas y espacios proporcionados dentro del restaurante LA RUFINA, ubicado en la Vda. El Peñasco, Envigado, Antioquia.</p>
       <p><strong>6.</strong> Me comprometo a supervisar y orientar al menor sobre el uso adecuado y seguro de las bicicletas y los espacios durante toda la actividad.</p>
       <p><strong>7.</strong> Asumo voluntariamente los riesgos de la actividad y eximo a LA RUFINA y LRFN FREEDOM CHASERS S.A.S. de cualquier daño o perjuicio. Renuncio a cualquier demanda/acción civil, penal o de resarcimiento. En caso de siniestro/accidente, los gastos médicos y hospitalarios serán asumidos personalmente por quien suscribe.</p>
       <p><strong>8.</strong> Eximo a LA RUFINA y LRFN FREEDOM CHASERS S.A.S. de cualquier responsabilidad derivada de accidentes u otras consecuencias de la práctica recreativa en sus instalaciones.</p>
     </div>
-
-    <div class="check-row">
-      <input type="checkbox" id="check1">
-      <label for="check1">He leído el presente documento en su integridad y comprendo cada uno de sus términos.</label>
-    </div>
-    <div class="check-row">
-      <input type="checkbox" id="check2">
-      <label for="check2">He sido informado(a) de forma clara sobre los alcances, riesgos y consecuencias de autorizar el uso de bicicletas eléctricas en LA RUFINA.</label>
-    </div>
-    <div class="check-row">
-      <input type="checkbox" id="check3">
-      <label for="check3">Otorgo este consentimiento de manera libre, espontánea y voluntaria.</label>
-    </div>
+    <div class="chk"><input type="checkbox" id="c1"><label for="c1">He leído el presente documento en su integridad y comprendo cada uno de sus términos.</label></div>
+    <div class="chk"><input type="checkbox" id="c2"><label for="c2">He sido informado(a) de forma clara sobre los alcances, riesgos y consecuencias de autorizar el uso de bicicletas eléctricas en LA RUFINA.</label></div>
+    <div class="chk"><input type="checkbox" id="c3"><label for="c3">Otorgo este consentimiento de manera libre, espontánea y voluntaria.</label></div>
   </div>
 
-  <!-- SECCIÓN 5: Firma -->
-  <div class="seccion">
-    <div class="seccion-titulo"><span class="num">5</span> Firma del padre / madre / acudiente</div>
-    <p style="font-size:13px;color:var(--texto-suave);margin-bottom:1rem;">Dibuje su firma en el recuadro a continuación usando el dedo o el mouse.</p>
-
-    <div class="firma-area" id="firma-area">
-      <canvas id="firma-canvas" width="560" height="160" style="width:100%;height:160px;display:block;"></canvas>
-      <div id="firma-placeholder" style="position:absolute;font-size:13px;color:#bbb;pointer-events:none;">Toque aquí para firmar</div>
+  <!-- 5. Firma -->
+  <div class="sec">
+    <div class="sec-titulo"><span class="num">5</span> Firma del acudiente</div>
+    <p style="font-size:13px;color:var(--gris);margin-bottom:1rem;">Dibuje su firma con el dedo o el mouse en el recuadro.</p>
+    <div class="firma-wrap">
+      <canvas id="canvas-firma"></canvas>
+      <div class="firma-hint" id="firma-hint">Toque aquí para firmar</div>
     </div>
-    <div class="firma-controles">
-      <button class="btn-firma" onclick="limpiarFirma()">🗑 Limpiar firma</button>
+    <div class="firma-btns">
+      <button class="btn-limpiar" onclick="limpiarFirma()">🗑 Limpiar firma</button>
     </div>
-
-    <div class="fecha-lugar">
+    <p style="font-size:13px;color:var(--gris);text-align:center;margin-top:0.75rem;border-top:1px solid var(--borde);padding-top:0.75rem;">
       📍 Envigado, Antioquia — La Rufina, Vda. El Peñasco
-    </div>
+    </p>
   </div>
 
-  <!-- ENVIAR -->
-  <button class="btn-enviar" id="btn-enviar" onclick="enviarFormulario()">
-    Firmar y registrar consentimiento
-  </button>
-  <p class="nota-envio">El registro se almacenará de forma segura. Puede solicitar una copia al personal del establecimiento.</p>
+  <button class="btn-enviar" id="btn-enviar" onclick="enviar()">Firmar y registrar consentimiento</button>
+  <p class="nota">El registro se almacenará de forma segura en el sistema de La Rufina.</p>
 
 </div>
 </div>
 
-<!-- VISTA REGISTROS -->
-<div class="vista" id="vista-registros">
-<div class="contenedor">
-  <div class="seccion">
-    <div class="seccion-titulo" style="border-bottom:none;margin-bottom:0.5rem;">📋 Registros guardados</div>
-    <p style="font-size:13px;color:var(--texto-suave);margin-bottom:1.25rem;">Consentimientos firmados en este dispositivo. Para integración con Google Sheets, configura el script en la pestaña de Configuración.</p>
-
-    <div class="stats-row" id="stats-row">
-      <div class="stat-card"><span class="stat-num" id="stat-total">0</span><span class="stat-lbl">Total registros</span></div>
-      <div class="stat-card"><span class="stat-num" id="stat-hoy">0</span><span class="stat-lbl">Hoy</span></div>
+<!-- REGISTROS -->
+<div id="vista-reg" class="vista">
+<div class="wrap">
+  <div class="sec">
+    <div class="sec-titulo">📋 Registros guardados</div>
+    <div class="stats">
+      <div class="stat"><span class="stat-n" id="stat-total">0</span><span class="stat-l">Total</span></div>
+      <div class="stat"><span class="stat-n" id="stat-hoy">0</span><span class="stat-l">Hoy</span></div>
     </div>
-
-    <button class="btn-exportar" onclick="exportarCSV()">⬇ Exportar CSV</button>
-
-    <div class="tabla-wrap">
-      <table id="tabla-registros">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Fecha</th>
-            <th>Acudiente</th>
-            <th>Doc.</th>
-            <th>Menor</th>
-            <th>Tel.</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody id="tbody-registros">
-          <tr><td colspan="7" style="text-align:center;color:var(--texto-suave);padding:2rem;">Sin registros aún</td></tr>
-        </tbody>
+    <button class="btn-exp" onclick="exportCSV()">⬇ Exportar CSV</button>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Fecha</th><th>Acudiente</th><th>Documento</th><th>Menor</th><th>Tel.</th><th>Estado</th></tr></thead>
+        <tbody id="tbody"></tbody>
       </table>
     </div>
   </div>
@@ -803,173 +309,117 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-// ── Estado global ──────────────────────────────────────────────────
-var registros = JSON.parse(localStorage.getItem('rufina_registros') || '[]');
-var APPS_SCRIPT_DEFAULT = 'https://script.google.com/macros/s/AKfycbyB0rgAGNkHiTaXPAY_985q4M4fryXx6LnjQmZDThtCfzcFnH9T8lSzE59LSqOTP_8/exec';
-var appsScriptUrl = localStorage.getItem('rufina_script_url') || APPS_SCRIPT_DEFAULT;
-localStorage.setItem('rufina_script_url', appsScriptUrl);
-document.getElementById('apps-script-url').value = appsScriptUrl;
+// ── Config Google Sheets ──────────────────────────────────────────
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyB0rgAGNkHiTaXPAY_985q4M4fryXx6LnjQmZDThtCfzcFnH9T8lSzE59LSqOTP_8/exec';
 
-// ── Navegación de vistas ──────────────────────────────────────────
-function mostrarVista(id, btn) {
-  document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('activo'));
+// ── Navegación ────────────────────────────────────────────────────
+function verVista(id) {
+  document.getElementById('vista-form').classList.remove('activa');
+  document.getElementById('vista-reg').classList.remove('activa');
+  document.getElementById('tab-form').classList.remove('activo');
+  document.getElementById('tab-reg').classList.remove('activo');
   document.getElementById('vista-' + id).classList.add('activa');
-  if (btn) btn.classList.add('activo');
-  if (id === 'registros') renderTabla();
+  document.getElementById('tab-' + id).classList.add('activo');
+  if (id === 'reg') renderTabla();
 }
 
-// ── Selección de calidad / tipo doc ──────────────────────────────
-function selCalidad(btn, val) {
-  document.querySelectorAll('.calidad-btn').forEach(b => b.classList.remove('activo'));
-  btn.classList.add('activo');
-  document.getElementById('calidad').value = val;
+// ── Selector de tipo ──────────────────────────────────────────────
+function selTipo(btn, grupo) {
+  var parent = btn.parentElement;
+  parent.querySelectorAll('.tipo').forEach(function(b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  document.getElementById(grupo).value = btn.textContent;
 }
 
-function selTipoDoc(btn, val) {
-  document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('activo'));
-  btn.classList.add('activo');
-  document.getElementById('tipo-doc').value = val;
-}
-
-// ── Firma digital ─────────────────────────────────────────────────
-// ── Firma digital ────────────────────────────────────────────────
-var canvas = document.getElementById('firma-canvas');
+// ── Firma ─────────────────────────────────────────────────────────
+var canvas = document.getElementById('canvas-firma');
 var ctx = canvas.getContext('2d');
 var firmaVacia = true;
 var drawing = false;
 
-function resizeCanvas() {
-  var w = canvas.offsetWidth;
-  if (w > 0) {
-    canvas.width = w;
-    canvas.height = 160;
-  }
+function initCanvas() {
+  canvas.width = canvas.offsetWidth || 600;
+  canvas.height = 160;
   ctx.strokeStyle = '#2c1a0e';
   ctx.lineWidth = 3;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 }
-// Esperar a que el canvas tenga tamaño real
-setTimeout(resizeCanvas, 100);
-window.addEventListener('resize', resizeCanvas);
 
-function getXY(e) {
+window.addEventListener('load', function() {
+  initCanvas();
+  window.addEventListener('resize', initCanvas);
+});
+
+function xy(e) {
   var r = canvas.getBoundingClientRect();
   var t = e.touches ? e.touches[0] : e;
   return [
     (t.clientX - r.left) * canvas.width / r.width,
-    (t.clientY - r.top)  * canvas.height / r.height
+    (t.clientY - r.top) * canvas.height / r.height
   ];
 }
 
-canvas.onmousedown = function(e) {
+canvas.addEventListener('mousedown', function(e) {
   drawing = true;
-  var p = getXY(e);
-  ctx.beginPath(); ctx.moveTo(p[0], p[1]);
-  document.getElementById('firma-placeholder').style.display = 'none';
-};
-canvas.onmousemove = function(e) {
+  var p = xy(e); ctx.beginPath(); ctx.moveTo(p[0], p[1]);
+  document.getElementById('firma-hint').style.display = 'none';
+});
+canvas.addEventListener('mousemove', function(e) {
   if (!drawing) return;
-  var p = getXY(e);
-  ctx.lineTo(p[0], p[1]); ctx.stroke();
-  firmaVacia = false;
-};
-canvas.onmouseup = canvas.onmouseleave = function() { drawing = false; };
+  var p = xy(e); ctx.lineTo(p[0], p[1]); ctx.stroke(); firmaVacia = false;
+});
+canvas.addEventListener('mouseup', function() { drawing = false; });
+canvas.addEventListener('mouseleave', function() { drawing = false; });
 
-canvas.ontouchstart = function(e) {
-  e.preventDefault();
-  drawing = true;
-  var p = getXY(e);
-  ctx.beginPath(); ctx.moveTo(p[0], p[1]);
-  document.getElementById('firma-placeholder').style.display = 'none';
-};
-canvas.ontouchmove = function(e) {
+canvas.addEventListener('touchstart', function(e) {
+  e.preventDefault(); drawing = true;
+  var p = xy(e); ctx.beginPath(); ctx.moveTo(p[0], p[1]);
+  document.getElementById('firma-hint').style.display = 'none';
+}, { passive: false });
+canvas.addEventListener('touchmove', function(e) {
   e.preventDefault();
   if (!drawing) return;
-  var p = getXY(e);
-  ctx.lineTo(p[0], p[1]); ctx.stroke();
-  firmaVacia = false;
-};
-canvas.ontouchend = function() { drawing = false; };
+  var p = xy(e); ctx.lineTo(p[0], p[1]); ctx.stroke(); firmaVacia = false;
+}, { passive: false });
+canvas.addEventListener('touchend', function() { drawing = false; });
 
 function limpiarFirma() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  initCanvas();
   firmaVacia = true;
-  document.getElementById('firma-placeholder').style.display = '';
+  document.getElementById('firma-hint').style.display = '';
 }
 
-// ── Progreso visual ───────────────────────────────────────────────
-function calcularProgreso() {
-  var campos = ['dia','mes','nombre-acudiente','cedula','telefono','nombre-menor'];
-  var llenos = campos.filter(function(id) {
-    var el = document.getElementById(id);
-    return el && el.value && el.value.trim() !== '' && el.value !== '';
-  }).length;
-  var checks = ['check1','check2','check3'].filter(function(id) {
-    return document.getElementById(id).checked;
-  }).length;
-  var firma = firmaVacia ? 0 : 1;
-  var calidad = document.getElementById('calidad').value ? 1 : 0;
-  var total = campos.length + 3 + 1 + 1;
-  var done = llenos + checks + firma + calidad;
-  return Math.round((done / total) * 100);
-}
-
-function actualizarProgreso() {
-  var p = calcularProgreso();
-  document.getElementById('progreso-fill').style.width = p + '%';
-  document.getElementById('progreso-label').textContent = p + '% completado';
-}
-
-document.querySelectorAll('input,select,textarea').forEach(function(el) {
-  el.addEventListener('input', actualizarProgreso);
-  el.addEventListener('change', actualizarProgreso);
-});
-
-document.querySelectorAll('#check1,#check2,#check3').forEach(function(el) {
-  el.addEventListener('change', actualizarProgreso);
-});
-
-// Observer para firma
-var firmaObserver = new MutationObserver(actualizarProgreso);
-var origFirmaVacia = firmaVacia;
-setInterval(function() {
-  if (firmaVacia !== origFirmaVacia) { origFirmaVacia = firmaVacia; actualizarProgreso(); }
-}, 500);
-
-// ── Envío de formulario ───────────────────────────────────────────
-function enviarFormulario() {
+// ── Enviar ────────────────────────────────────────────────────────
+function enviar() {
   var errores = [];
-
-  if (!document.getElementById('calidad').value) errores.push('Selecciona la calidad del acudiente (padre/madre/tutor/acudiente).');
-  if (!document.getElementById('nombre-acudiente').value.trim()) errores.push('Ingresa el nombre completo del acudiente.');
-  if (!document.getElementById('cedula').value.trim()) errores.push('Ingresa el número de documento.');
-  if (!document.getElementById('telefono').value.trim()) errores.push('Ingresa el número de contacto.');
-  if (!document.getElementById('nombre-menor').value.trim()) errores.push('Ingresa el nombre del menor.');
   if (!document.getElementById('dia').value.trim()) errores.push('Ingresa el día.');
   if (!document.getElementById('mes').value) errores.push('Selecciona el mes.');
-  if (!document.getElementById('check1').checked || !document.getElementById('check2').checked || !document.getElementById('check3').checked) errores.push('Debes aceptar todas las declaraciones del consentimiento.');
-  if (firmaVacia) errores.push('Por favor, dibuja tu firma en el recuadro.');
+  if (!document.getElementById('calidad').value) errores.push('Selecciona la calidad del acudiente.');
+  if (!document.getElementById('nombre-ac').value.trim()) errores.push('Ingresa el nombre del acudiente.');
+  if (!document.getElementById('cedula').value.trim()) errores.push('Ingresa el número de documento.');
+  if (!document.getElementById('telefono').value.trim()) errores.push('Ingresa el teléfono.');
+  if (!document.getElementById('nombre-m').value.trim()) errores.push('Ingresa el nombre del menor.');
+  if (!document.getElementById('c1').checked || !document.getElementById('c2').checked || !document.getElementById('c3').checked) errores.push('Debes aceptar todas las declaraciones.');
+  if (firmaVacia) errores.push('Por favor dibuja tu firma.');
 
-  var alertaErr = document.getElementById('alerta-error');
-  var alertaOk = document.getElementById('alerta-exito');
-  alertaErr.style.display = 'none';
-  alertaOk.style.display = 'none';
+  var elErr = document.getElementById('alerta-err');
+  var elOk = document.getElementById('alerta-ok');
+  elErr.style.display = 'none';
+  elOk.style.display = 'none';
 
   if (errores.length > 0) {
-    document.getElementById('alerta-error-texto').textContent = errores[0];
-    alertaErr.style.display = 'flex';
-    alertaErr.scrollIntoView({behavior:'smooth', block:'center'});
+    elErr.textContent = '⚠️ ' + errores[0];
+    elErr.style.display = 'block';
+    elErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
   var btn = document.getElementById('btn-enviar');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Guardando...';
+  btn.innerHTML = '<span class="spin"></span>Guardando...';
 
-  var registro = {
+  var reg = {
     id: 'RF-' + Date.now(),
     timestamp: new Date().toLocaleString('es-CO'),
     dia: document.getElementById('dia').value,
@@ -978,123 +428,84 @@ function enviarFormulario() {
     calidad: document.getElementById('calidad').value,
     tipoDoc: document.getElementById('tipo-doc').value,
     cedula: document.getElementById('cedula').value,
-    nombreAcudiente: document.getElementById('nombre-acudiente').value,
+    nombreAcudiente: document.getElementById('nombre-ac').value,
     telefono: document.getElementById('telefono').value,
-    nombreMenor: document.getElementById('nombre-menor').value,
-    edadMenor: document.getElementById('edad-menor').value,
-    fechaVisita: document.getElementById('fecha-visita').value,
-    firma: canvas.toDataURL('image/png')
+    nombreMenor: document.getElementById('nombre-m').value,
+    edadMenor: document.getElementById('edad-m').value,
+    fechaVisita: document.getElementById('fecha-v').value,
+    firma: 'SI'
   };
 
-  // Guardar localmente siempre
-  registros.unshift(registro);
-  localStorage.setItem('rufina_registros', JSON.stringify(registros));
+  var lista = JSON.parse(localStorage.getItem('rufina_v2') || '[]');
+  lista.unshift(reg);
+  localStorage.setItem('rufina_v2', JSON.stringify(lista));
 
-  // Intentar enviar a Apps Script si está configurado
-  var url = localStorage.getItem('rufina_script_url');
-  if (url) {
-    fetch(url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(registro)
-    }).catch(function(){});
-  }
+  fetch(SCRIPT_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(reg)
+  }).catch(function() {});
 
   setTimeout(function() {
     btn.disabled = false;
     btn.textContent = 'Firmar y registrar consentimiento';
-    alertaOk.style.display = 'flex';
-    alertaOk.scrollIntoView({behavior:'smooth', block:'center'});
-    resetFormulario();
+    elOk.style.display = 'block';
+    elOk.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    resetForm();
   }, 1200);
 }
 
-function resetFormulario() {
-  ['nombre-acudiente','cedula','telefono','nombre-menor','edad-menor','dia','fecha-visita'].forEach(function(id) {
+function resetForm() {
+  ['dia','nombre-ac','cedula','telefono','nombre-m','edad-m'].forEach(function(id) {
     document.getElementById(id).value = '';
   });
   document.getElementById('mes').value = '';
   document.getElementById('anio').value = '2026';
   document.getElementById('calidad').value = '';
-  document.getElementById('tipo-doc').value = 'CC';
-  document.querySelectorAll('.calidad-btn').forEach(function(b) { b.classList.remove('activo'); });
-  document.querySelectorAll('.tipo-btn').forEach(function(b) { b.classList.remove('activo'); });
-  document.querySelector('.tipo-btn').classList.add('activo');
-  document.getElementById('check1').checked = false;
-  document.getElementById('check2').checked = false;
-  document.getElementById('check3').checked = false;
+  document.getElementById('tipo-doc').value = 'C.C.';
+  document.querySelectorAll('.tipo').forEach(function(b) { b.classList.remove('on'); });
+  document.querySelector('.tipo').classList.add('on');
+  document.getElementById('c1').checked = false;
+  document.getElementById('c2').checked = false;
+  document.getElementById('c3').checked = false;
+  document.getElementById('fecha-v').value = '';
   limpiarFirma();
-  actualizarProgreso();
 }
 
-// ── Tabla de registros ───────────────────────────────────────────
+// ── Tabla de registros ────────────────────────────────────────────
 function renderTabla() {
-  var tbody = document.getElementById('tbody-registros');
-  document.getElementById('stat-total').textContent = registros.length;
-
-  var hoy = new Date().toLocaleDateString('es-CO');
-  var hoyCount = registros.filter(function(r) {
-    return r.timestamp && r.timestamp.startsWith(hoy.split('/').reverse().join('/'));
-  }).length;
-  document.getElementById('stat-hoy').textContent = registros.filter(function(r) {
-    var ts = r.timestamp || '';
-    return ts.includes(new Date().getDate() + '/');
-  }).length || registros.length > 0 ? registros.filter(function(r) { return r.dia == new Date().getDate(); }).length : 0;
-
-  if (registros.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--texto-suave);padding:2rem;">Sin registros aún</td></tr>';
+  var lista = JSON.parse(localStorage.getItem('rufina_v2') || '[]');
+  document.getElementById('stat-total').textContent = lista.length;
+  var hoy = new Date().getDate();
+  document.getElementById('stat-hoy').textContent = lista.filter(function(r) { return r.dia == hoy; }).length;
+  var tbody = document.getElementById('tbody');
+  if (lista.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gris)">Sin registros aún</td></tr>';
     return;
   }
-
-  tbody.innerHTML = registros.map(function(r, i) {
-    return '<tr>' +
-      '<td style="color:var(--texto-suave)">' + (i+1) + '</td>' +
-      '<td>' + (r.dia||'') + ' ' + (r.mes||'') + ' ' + (r.anio||'') + '</td>' +
-      '<td><strong>' + (r.nombreAcudiente||'') + '</strong><br><span style="font-size:11px;color:var(--texto-suave)">' + (r.calidad||'') + '</span></td>' +
-      '<td>' + (r.tipoDoc||'') + ' ' + (r.cedula||'') + '</td>' +
-      '<td>' + (r.nombreMenor||'') + '</td>' +
-      '<td>' + (r.telefono||'') + '</td>' +
-      '<td><span class="badge ok">Firmado</span></td>' +
-    '</tr>';
+  tbody.innerHTML = lista.map(function(r, i) {
+    return '<tr><td style="color:var(--gris)">' + (i+1) + '</td>' +
+      '<td>' + r.dia + ' ' + r.mes + ' ' + r.anio + '</td>' +
+      '<td><strong>' + r.nombreAcudiente + '</strong><br><span style="font-size:11px;color:var(--gris)">' + r.calidad + '</span></td>' +
+      '<td>' + r.tipoDoc + ' ' + r.cedula + '</td>' +
+      '<td>' + r.nombreMenor + '</td>' +
+      '<td>' + r.telefono + '</td>' +
+      '<td><span class="badge">✅ Firmado</span></td></tr>';
   }).join('');
 }
 
-// ── Exportar CSV ─────────────────────────────────────────────────
-function exportarCSV() {
-  if (registros.length === 0) { alert('No hay registros para exportar.'); return; }
+function exportCSV() {
+  var lista = JSON.parse(localStorage.getItem('rufina_v2') || '[]');
+  if (!lista.length) { alert('No hay registros.'); return; }
   var cols = ['id','timestamp','dia','mes','anio','calidad','tipoDoc','cedula','nombreAcudiente','telefono','nombreMenor','edadMenor','fechaVisita'];
-  var csv = cols.join(',') + '\n';
-  csv += registros.map(function(r) {
-    return cols.map(function(c) { return '"' + (r[c]||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  var csv = cols.join(',') + '\n' + lista.map(function(r) {
+    return cols.map(function(c) { return '"' + (r[c]||'') + '"'; }).join(',');
   }).join('\n');
-  var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
   var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'consentimientos_larufina_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'consentimientos_larufina.csv';
   a.click();
 }
-
-// ── Config ────────────────────────────────────────────────────────
-function guardarConfig() {
-  var url = document.getElementById('apps-script-url').value.trim();
-  localStorage.setItem('rufina_script_url', url);
-  document.getElementById('config-ok').style.display = 'block';
-  setTimeout(function() { document.getElementById('config-ok').style.display = 'none'; }, 3000);
-}
-
-function copiarCodigo() {
-  var txt = document.getElementById('codigo-apps-script').textContent;
-  navigator.clipboard.writeText(txt).then(function() {
-    document.getElementById('copiado-ok').style.display = 'block';
-    setTimeout(function() { document.getElementById('copiado-ok').style.display = 'none'; }, 2500);
-  });
-}
-
-// Inicio
-ctx.fillStyle = '#ffffff';
-actualizarProgreso();
-}); // DOMContentLoaded
 </script>
 </body>
 </html>
