@@ -834,38 +834,76 @@ function selTipoDoc(btn, val) {
 }
 
 // ── Firma digital ─────────────────────────────────────────────────
+// ── Firma digital ────────────────────────────────────────────────
 var canvas = document.getElementById('firma-canvas');
 var ctx = canvas.getContext('2d');
-var firmando = false;
 var firmaVacia = true;
-ctx.strokeStyle = '#1a3a1f';
-ctx.lineWidth = 2;
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
+var dibujando = false;
+var ultimoX = 0, ultimoY = 0;
 
-function getPos(e) {
-  var r = canvas.getBoundingClientRect();
-  var src = e.touches ? e.touches[0] : e;
-  var scaleX = canvas.width / r.width;
-  var scaleY = canvas.height / r.height;
-  return { 
-    x: (src.clientX - r.left) * scaleX, 
-    y: (src.clientY - r.top) * scaleY 
+function setupCanvas() {
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width || 560;
+  canvas.height = 160;
+  ctx.strokeStyle = '#2c1a0e';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+setupCanvas();
+window.addEventListener('resize', setupCanvas);
+
+function getPosCanvas(e) {
+  var rect = canvas.getBoundingClientRect();
+  var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: (clientX - rect.left) * (canvas.width / rect.width),
+    y: (clientY - rect.top) * (canvas.height / rect.height)
   };
 }
 
-canvas.addEventListener('mousedown', function(e) { firmando = true; var p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); document.getElementById('firma-placeholder').style.display='none'; });
-canvas.addEventListener('mousemove', function(e) { if (!firmando) return; var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); firmaVacia = false; });
-canvas.addEventListener('mouseup', function() { firmando = false; });
-canvas.addEventListener('mouseleave', function() { firmando = false; });
-canvas.addEventListener('touchstart', function(e) { e.preventDefault(); firmando = true; var p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); document.getElementById('firma-placeholder').style.display='none'; }, {passive:false});
-canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if (!firmando) return; var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); firmaVacia = false; }, {passive:false});
-canvas.addEventListener('touchend', function() { firmando = false; });
+function iniciarTrazo(e) {
+  e.preventDefault();
+  dibujando = true;
+  var p = getPosCanvas(e);
+  ultimoX = p.x;
+  ultimoY = p.y;
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
+  ctx.fill();
+  document.getElementById('firma-placeholder').style.display = 'none';
+}
+
+function continuarTrazo(e) {
+  e.preventDefault();
+  if (!dibujando) return;
+  var p = getPosCanvas(e);
+  ctx.beginPath();
+  ctx.moveTo(ultimoX, ultimoY);
+  ctx.lineTo(p.x, p.y);
+  ctx.stroke();
+  ultimoX = p.x;
+  ultimoY = p.y;
+  firmaVacia = false;
+}
+
+function terminarTrazo(e) {
+  dibujando = false;
+}
+
+canvas.addEventListener('mousedown', iniciarTrazo);
+canvas.addEventListener('mousemove', continuarTrazo);
+canvas.addEventListener('mouseup', terminarTrazo);
+canvas.addEventListener('mouseleave', terminarTrazo);
+canvas.addEventListener('touchstart', iniciarTrazo, {passive: false});
+canvas.addEventListener('touchmove', continuarTrazo, {passive: false});
+canvas.addEventListener('touchend', terminarTrazo, {passive: false});
 
 function limpiarFirma() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  setupCanvas();
   firmaVacia = true;
   document.getElementById('firma-placeholder').style.display = '';
 }
@@ -1063,7 +1101,6 @@ function copiarCodigo() {
 
 // Inicio
 ctx.fillStyle = '#ffffff';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
 actualizarProgreso();
 }); // DOMContentLoaded
 </script>
