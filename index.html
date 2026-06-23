@@ -288,10 +288,10 @@
   }
 
   .firma-area {
-    border: 1.5px dashed var(--borde);
+    border: 2px dashed var(--tierra);
     border-radius: 8px;
-    background: var(--crema);
-    padding: 1rem;
+    background: #fff;
+    padding: 0.5rem;
     text-align: center;
     position: relative;
     min-height: 160px;
@@ -745,7 +745,7 @@
     <p style="font-size:13px;color:var(--texto-suave);margin-bottom:1rem;">Dibuje su firma en el recuadro a continuación usando el dedo o el mouse.</p>
 
     <div class="firma-area" id="firma-area">
-      <canvas id="firma-canvas" width="560" height="150" style="max-width:100%;"></canvas>
+      <canvas id="firma-canvas" width="560" height="160" style="width:100%;height:160px;display:block;"></canvas>
       <div id="firma-placeholder" style="position:absolute;font-size:13px;color:#bbb;pointer-events:none;">Toque aquí para firmar</div>
     </div>
     <div class="firma-controles">
@@ -845,7 +845,12 @@ ctx.lineJoin = 'round';
 function getPos(e) {
   var r = canvas.getBoundingClientRect();
   var src = e.touches ? e.touches[0] : e;
-  return { x: (src.clientX - r.left) * (canvas.width / r.width), y: (src.clientY - r.top) * (canvas.height / r.height) };
+  var scaleX = canvas.width / r.width;
+  var scaleY = canvas.height / r.height;
+  return { 
+    x: (src.clientX - r.left) * scaleX, 
+    y: (src.clientY - r.top) * scaleY 
+  };
 }
 
 canvas.addEventListener('mousedown', function(e) { firmando = true; var p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); document.getElementById('firma-placeholder').style.display='none'; });
@@ -858,6 +863,8 @@ canvas.addEventListener('touchend', function() { firmando = false; });
 
 function limpiarFirma() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   firmaVacia = true;
   document.getElementById('firma-placeholder').style.display = '';
 }
@@ -1054,6 +1061,8 @@ function copiarCodigo() {
 }
 
 // Inicio
+ctx.fillStyle = '#ffffff';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 actualizarProgreso();
 </script>
 </body>
