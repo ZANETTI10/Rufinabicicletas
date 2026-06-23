@@ -346,10 +346,16 @@ function initCanvas() {
   ctx.lineJoin = 'round';
 }
 
-window.addEventListener('load', function() {
+// Inicializar canvas de múltiples formas para compatibilidad
+if (document.readyState === 'complete') {
   initCanvas();
-  window.addEventListener('resize', initCanvas);
-});
+} else {
+  window.addEventListener('load', initCanvas);
+  document.addEventListener('DOMContentLoaded', initCanvas);
+}
+window.addEventListener('resize', initCanvas);
+// Respaldo por si acaso
+setTimeout(initCanvas, 200);
 
 function xy(e) {
   var r = canvas.getBoundingClientRect();
